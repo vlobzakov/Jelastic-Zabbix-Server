@@ -44,7 +44,7 @@ actions:
     - cmd[${globals.TARGET_NODE_ID}]: |-
         gpasswd -a litespeed zabbix &>> /var/log/run.log
         chmod 0660 /etc/zabbix/zabbix_server.conf &>> /var/log/run.log
-        sed -i '/DBHost=localhost/c\DBHost=localhost' /etc/zabbix/zabbix_server.conf &>> /var/log/run.log
+        sed -i '/DBHost=localhost/c\DBHost=127.0.0.1' /etc/zabbix/zabbix_server.conf &>> /var/log/run.log
         sed -i '/DBName=zabbix/c\DBName=${globals.DB_NAME}' /etc/zabbix/zabbix_server.conf &>> /var/log/run.log
         sed -i '/DBUser=zabbix/c\DBUser=${globals.DB_USER}' /etc/zabbix/zabbix_server.conf &>> /var/log/run.log
         sed -i '/DBPassword=/c\DBPassword=${globals.DB_PASS}' /etc/zabbix/zabbix_server.conf &>> /var/log/run.log
