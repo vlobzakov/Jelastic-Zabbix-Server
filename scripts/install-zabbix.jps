@@ -6,7 +6,6 @@ baseUrl: https://raw.githubusercontent.com/panslothda/Jelastic-Zabbix-server/mas
 skipNodeEmails: true
 
 globals:
-  ZABBIX_PASS: "${settings.zabbix_pass}"
   DB_HOST: "${settings.db_host}"
   DB_NAME: zabbix_${fn.random}
   DB_USER: "${settings.db_user}"
@@ -14,7 +13,6 @@ globals:
   TARGET_NODE_ID: "${settings.targetNodeID}"
 
 onInstall:
-  - dump-text
   - install-zabbix
   - prepare-mysql
   - configure-zabbix
@@ -22,17 +20,6 @@ onInstall:
   - add-frontend
 
 actions:
-  dump-text:
-    - cmd[${globals.TARGET_NODE_ID}]: |-
-        echo ZABBIX_PASS=${globals.ZABBIX_PASS} >> /var/log/temp
-        echo DB_HOST=${globals.DB_HOST} >> /var/log/temp
-        echo DB_NAME=${globals.DB_NAME} >> /var/log/temp
-        echo DB_USER=${globals.DB_USER} >> /var/log/temp
-        echo DB_PASS=${globals.DB_PASS} >> /var/log/temp
-        echo TARGET_NODE_ID=${globals.TARGET_NODE_ID} >> /var/log/temp
-        chmod 755 /var/log/temp
-      user: root
-
   install-zabbix:
     - log: Download and install Zabbix Server
     - cmd[${globals.TARGET_NODE_ID}]: |-
@@ -85,7 +72,6 @@ actions:
         sed -i '0,/zabbix/s//${globals.DB_NAME}/' /var/www/webroot/ROOT/conf/zabbix.conf.php.example &>> /var/log/run.log
         sed -i '0,/10051/s//10050/' /var/www/webroot/ROOT/conf/zabbix.conf.php.example &>> /var/log/run.log
         DST='$DB['"'"'PASSWORD'"'"']      = '"'"'${globals.DB_PASS}'"'"';'
-        sed -i '9i $DST' /var/www/webroot/ROOT/conf/zabbix.conf.php.example
-        sed -i "15i $DST" /var/www/webroot/ROOT/conf/zabbix.conf.php.example
-        echo $DST >> /var/www/webroot/ROOT/conf/zabbix.conf.php.example
+        sed -i '9d' /var/www/webroot/ROOT/conf/zabbix.conf.php.example
+        sed -i "9i $DST" /var/www/webroot/ROOT/conf/zabbix.conf.php.example
         mv /var/www/webroot/ROOT/conf/zabbix.conf.php.example /var/www/webroot/ROOT/conf/zabbix.conf.php
