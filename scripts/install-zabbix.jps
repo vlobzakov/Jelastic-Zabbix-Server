@@ -3,6 +3,7 @@ name: Install Zabbix
 description: This installs Zabbix and configures it
 logo: images/zabbix.svg
 baseUrl: https://raw.githubusercontent.com/panslothda/Jelastic-Zabbix-server/master
+skipNodeEmails: true
 
 globals:
   ZABBIX_PASS: "${settings.zabbix_pass}"
@@ -81,8 +82,8 @@ actions:
         rm frontend.zip &>> /var/log/run.log
         sed -i '0,/zabbix/s//${globals.DB_NAME}/' /var/www/webroot/ROOT/conf/zabbix.conf.php.example &>> /var/log/run.log
         sed -i '8s/zabbix/${globals.DB_USER}/g' /var/www/webroot/ROOT/conf/zabbix.conf.php.example &>> /var/log/run.log
-        sed -i '0,/localhost/s//127.0.0.1/' /var/www/webroot/ROOT/conf/zabbix.conf.php.example &>> /var/log/run.log
+        sed -i '0,/zabbix/s//${globals.DB_NAME}/' /var/www/webroot/ROOT/conf/zabbix.conf.php.example &>> /var/log/run.log
+        sed -i '0,/10051/s//10050/' /var/www/webroot/ROOT/conf/zabbix.conf.php.example &>> /var/log/run.log
         DST='$DB['"'"'PASSWORD'"'"']      = '"'"'${globals.DB_PASS}'"'"';'
-        echo $DST &>> /var/log/run.log
-        sed -e '0,/PASSWORD/c\$DST' /var/www/webroot/ROOT/conf/zabbix.conf.php.example &>> /var/log/run.log
+        sed -i "9i $DST"
         mv /var/www/webroot/ROOT/conf/zabbix.conf.php.example /var/www/webroot/ROOT/conf/zabbix.conf.php
