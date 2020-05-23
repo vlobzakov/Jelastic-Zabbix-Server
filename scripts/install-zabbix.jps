@@ -16,12 +16,12 @@ onInstall:
 actions:
   dump-text:
     - cmd[${globals.TARGET_NODE_ID}]: |-
-        echo ZABBIX_PASS=${ZABBIX_PASS} >> /var/log/temp
-        echo DB_HOST=${DB_HOST} >> /var/log/temp
-        echo DB_NAME=${DB_NAME} >> /var/log/temp
-        echo DB_USER=${DB_USER} >> /var/log/temp
-        echo DB_PASS=${DB_PASS} >> /var/log/temp
-        echo TARGET_NODE_ID=${TARGET_NODE_ID} >> /var/log/temp
+        echo ZABBIX_PASS=${globals.ZABBIX_PASS} >> /var/log/temp
+        echo DB_HOST=${globals.DB_HOST} >> /var/log/temp
+        echo DB_NAME=${globals.DB_NAME} >> /var/log/temp
+        echo DB_USER=${globals.DB_USER} >> /var/log/temp
+        echo DB_PASS=${globals.DB_PASS} >> /var/log/temp
+        echo TARGET_NODE_ID=${globals.TARGET_NODE_ID} >> /var/log/temp
         chmod 755 /var/log/temp
       user: root
         
