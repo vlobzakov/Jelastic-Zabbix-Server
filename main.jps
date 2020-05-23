@@ -27,6 +27,7 @@ onInstall:
   - enable-ssl
   - creatUserDB
   - install-zabbix
+  - add-to-redeploy
 
 actions:
   enable-ssl:
@@ -44,6 +45,7 @@ actions:
       user: root  
 
   install-zabbix:
+    -log: launching zabbix install JPS
     - install: ${baseUrl}/scripts/install-zabbix.jps
       settings:
         db_host: ${globals.DB_HOST}
@@ -51,3 +53,10 @@ actions:
         db_pass: ${globals.DB_PASS}
         zabbix_pass: ${globals.ZABBIX_PASS}
         targetNodeID: ${nodes.cp.master.id}
+
+  add-to-redeploy:
+    - log: Add all necessary files and folder to the redeploy file
+    - cmd [cp]: |-
+        echo /etc/zabbix >> /etc/jelastic/redeploy.conf
+        echo /var/www/webroot >> /etc/jelastic/redeploy.conf
+      user: root  

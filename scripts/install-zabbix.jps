@@ -2,6 +2,7 @@ type: update
 name: Install Zabbix
 description: This installs Zabbix and configures it
 logo: images/zabbix.svg
+baseUrl: https://raw.githubusercontent.com/panslothda/Jelastic-Zabbix-server/master
 
 globals:
   ZABBIX_PASS: "${settings.zabbix_pass}"
@@ -16,6 +17,8 @@ onInstall:
   - install-zabbix
   - prepare-mysql
   - configure-zabbix
+  - configure-php
+  - add-frontend
 
 actions:
   dump-text:
@@ -49,15 +52,34 @@ actions:
       user: root
 
   configure-zabbix:
-    - log: Configure Zabbix
+    - log: Configure Zabbix config files
     - cmd[${globals.TARGET_NODE_ID}]: |-
-        usermod -a -G zabbix litespeed &>> /var/log/run.log
+        gpasswd -a litespeed zabbix &>> /var/log/run.log
         chmod 0660 /etc/zabbix/zabbix_server.conf &>> /var/log/run.log
         sed -i '/DBHost=localhost/c\DBHost=localhost' /etc/zabbix/zabbix_server.conf &>> /var/log/run.log
         sed -i '/DBName=zabbix/c\DBName=${globals.DB_NAME}' /etc/zabbix/zabbix_server.conf &>> /var/log/run.log
         sed -i '/DBUser=zabbix/c\DBUser=${globals.DB_USER}' /etc/zabbix/zabbix_server.conf &>> /var/log/run.log
         sed -i '/DBPassword=/c\DBPassword=${globals.DB_PASS}' /etc/zabbix/zabbix_server.conf &>> /var/log/run.log
+        systemctl restart zabbix-server zabbix-agent &>> /var/log/run.log
+        systemctl enable zabbix-server zabbix-agent &>> /var/log/run.log
       user: root
 
-        #sed -i '0,/enabled=0/s//enabled=1/' /etc/yum.repos.d/zabbix.repo &>> /var/log/run.log
-        #yum install zabbix-web-mysql-scl zabbix-apache-conf-scl &>> /var/log/run.log
+  configure-php:
+    - log: Change php config for zabbix needs
+    - cmd[${globals.TARGET_NODE_ID}]: |-
+        sed -i '/max_input_time = 60/c\max_input_time = 300' /usr/local/lsws/lsphp74/etc/php.ini &>> /var/log/run.log
+        sed -i '/date.timezone =/c\date.timezone = Europe/Zurich' /usr/local/lsws/lsphp74/etc/php.ini &>> /var/log/run.log
+
+  add-frontend:
+    - log: Download frontend php files and place in right folder
+    - cmd[${globals.TARGET_NODE_ID}]: |-
+        cd /var/www/webroot/ROOT &>> /var/log/run.log
+        rm index.php &>> /var/log/run.log
+        wget ${baseUrl}/frontend/frontend.zip &>> /var/log/run.log
+        unzip frontend.zip &>> /var/log/run.log
+        rm frontend.zip &>> /var/log/run.log
+
+       
+
+#sed -i '0,/enabled=0/s//enabled=1/' /etc/yum.repos.d/zabbix.repo &>> /var/log/run.log
+#yum install zabbix-web-mysql-scl zabbix-apache-conf-scl &>> /var/log/run.log
