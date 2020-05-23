@@ -15,6 +15,7 @@ onInstall:
   - dump-text
   - install-zabbix
   - prepare-mysql
+  - configure-zabbix
 
 actions:
   dump-text:
@@ -25,7 +26,7 @@ actions:
         echo DB_USER=${globals.DB_USER} >> /var/log/temp
         echo DB_PASS=${globals.DB_PASS} >> /var/log/temp
         echo TARGET_NODE_ID=${globals.TARGET_NODE_ID} >> /var/log/temp
-        chmod 755 /var/log/temp 
+        chmod 755 /var/log/temp
       user: root
 
   install-zabbix:
@@ -37,6 +38,8 @@ actions:
         yum clean all &>> /var/log/run.log
         yum install zabbix-server-mysql zabbix-agent &>> /var/log/run.log
         yum install centos-release-scl &>> /var/log/run.log
+        usermod -a -G zabbix litespeed
+        chmod 0660 /etc/zabbix/zabbix_server.conf
       user: root
       sayYes: true
 
@@ -44,6 +47,18 @@ actions:
     - log: Create database and add userrights/scheme
     - cmd[${globals.TARGET_NODE_ID}]: |-
         mysql -u root -p${globals.DB_PASS} -e "create database ${globals.DB_NAME} character set utf8 collate utf8_bin;" &>> /var/log/run.log
+        zcat /usr/share/doc/zabbix-server-mysql*/create.sql.gz | mysql -u${globals.DB_USER} -p${globals.DB_PASS} ${globals.DB_NAME}
+      user: root
+
+  configure-zabbix:
+    - log: Configure Zabbix
+    - cmd[${globals.TARGET_NODE_ID}]: |-
+        usermod -a -G zabbix litespeed
+        chmod 0660 /etc/zabbix/zabbix_server.conf
+        sed -i '/DBHost=localhost/c\DBHost=localhost' /etc/zabbix/zabbix_server.conf
+        sed -i '/DBName=zabbix/c\DBName=${globals.DB_NAME}' /etc/zabbix/zabbix_server.conf
+        sed -i '/DBUser=zabbix/c\DBUser=${globals.DB_USER}' /etc/zabbix/zabbix_server.conf
+        sed -i '/DBPassword=/c\DBPassword=${globals.DB_PASS}' /etc/zabbix/zabbix_server.conf        
       user: root
 
         #sed -i '0,/enabled=0/s//enabled=1/' /etc/yum.repos.d/zabbix.repo &>> /var/log/run.log
