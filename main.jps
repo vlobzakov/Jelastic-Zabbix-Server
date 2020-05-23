@@ -45,7 +45,7 @@ actions:
       user: root  
 
   install-zabbix:
-    -log: launching zabbix install JPS
+    - log: launching zabbix install JPS
     - install: ${baseUrl}/scripts/install-zabbix.jps
       settings:
         db_host: ${globals.DB_HOST}
