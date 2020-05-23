@@ -22,6 +22,9 @@ nodes:
   fixedCloudlets: 4
   cloudlets: 16
   nodeGroup: cp
+
+onInstall:
+  - enable-ssl
   - creatUserDB
   - install-zabbix
 
