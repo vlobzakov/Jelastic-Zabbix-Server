@@ -72,7 +72,7 @@ actions:
         sed -i '/date.timezone =/c\date.timezone = Europe/Zurich' /usr/local/lsws/lsphp74/etc/php.ini &>> /var/log/run.log
 
   add-frontend:
-    - log: Download frontend php files and place in right folder
+    - log: Download frontend php files and configure the frontend
     - cmd[${globals.TARGET_NODE_ID}]: |-
         cd /var/www/webroot/ROOT &>> /var/log/run.log
         rm index.php &>> /var/log/run.log
@@ -83,5 +83,6 @@ actions:
         sed -i '8s/zabbix/${globals.DB_USER}/g' /var/www/webroot/ROOT/conf/zabbix.conf.php.example &>> /var/log/run.log
         sed -i '0,/localhost/s//127.0.0.1/' /var/www/webroot/ROOT/conf/zabbix.conf.php.example &>> /var/log/run.log
         DST='$DB['"'"'PASSWORD'"'"']      = '"'"'${globals.DB_PASS}'"'"';'
+        echo $DST &>> /var/log/run.log
         sed -e '0,/PASSWORD/c\$DST' /var/www/webroot/ROOT/conf/zabbix.conf.php.example &>> /var/log/run.log
-        mv /var/www/webroot/ROOT/conf/zabbix.conf.php.example /var/www/webroot/ROOT/conf/zabbix.conf.php &>> /var/log/run.log
+        mv /var/www/webroot/ROOT/conf/zabbix.conf.php.example /var/www/webroot/ROOT/conf/zabbix.conf.php
