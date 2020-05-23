@@ -1,4 +1,4 @@
-jpsType: update
+type: update
 name: WordPress Installation addon
 description: This package for WowrdPress configurations
 
@@ -22,3 +22,6 @@ actions:
         echo DB_USER=${DB_USER} >> /var/log/temp
         echo DB_PASS=${DB_PASS} >> /var/log/temp
         echo TARGET_NODE_ID=${TARGET_NODE_ID} >> /var/log/temp
+        chmod 755 /var/log/temp
+      user: root
+        
