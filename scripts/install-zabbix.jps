@@ -12,6 +12,7 @@ globals:
 
 onInstall:
   - dump-text
+  - prepare-mysql
 
 actions:
   dump-text:
@@ -25,3 +26,7 @@ actions:
         chmod 755 /var/log/temp
       user: root
         
+  prepare-mysql:
+    - cmd[${globals.TARGET_NODE_ID}]: |-
+        mysql -u root -p${globals.DB_PASS} -e "create database ${globals.DB_NAME};"
+      user: root
