@@ -1,0 +1,19 @@
+type: install
+version: 0.1
+name: Zabbix Server
+baseUrl: https://raw.githubusercontent.com/panslothda/Jelastic-Zabbix-server/master
+categories:
+  - apps/dev-and-admin-tools
+logo: images/zabbix.png
+homepage: https://zabbix.com
+description:
+  text: Zabbix Server for monitoring of nodes and other servers
+  short: Zabbix Server for monitoring of nodes and other servers
+
+skipNodeEmails: true
+nodes:
+  nodeType: llsmp
+  fixedCloudlets: 4
+  cloudlets: 16
+  nodeGroup: "cp"
+  ssl: true
