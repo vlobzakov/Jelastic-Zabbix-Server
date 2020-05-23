@@ -4,7 +4,7 @@ name: Zabbix Server
 baseUrl: https://raw.githubusercontent.com/panslothda/Jelastic-Zabbix-server/master
 categories:
   - apps/dev-and-admin-tools
-logo: images/zabbix.png
+logo: images/zabbix.svg
 homepage: https://zabbix.com
 description:
   text: Zabbix Server for monitoring of nodes and other servers
