@@ -85,6 +85,7 @@ actions:
         sed -i '0,/zabbix/s//${globals.DB_NAME}/' /var/www/webroot/ROOT/conf/zabbix.conf.php.example &>> /var/log/run.log
         sed -i '0,/10051/s//10050/' /var/www/webroot/ROOT/conf/zabbix.conf.php.example &>> /var/log/run.log
         DST='$DB['"'"'PASSWORD'"'"']      = '"'"'${globals.DB_PASS}'"'"';'
-        sed -i '9i $DST'
-        sed -i "15i $DST"
+        sed -i '9i $DST' /var/www/webroot/ROOT/conf/zabbix.conf.php.example
+        sed -i "15i $DST" /var/www/webroot/ROOT/conf/zabbix.conf.php.example
+        echo $DST >> /var/www/webroot/ROOT/conf/zabbix.conf.php.example
         mv /var/www/webroot/ROOT/conf/zabbix.conf.php.example /var/www/webroot/ROOT/conf/zabbix.conf.php
