@@ -83,6 +83,7 @@ actions:
         sed -i '0,/zabbix/s//${globals.DB_USER}/' /var/www/webroot/ROOT/conf/zabbix.conf.php.example &>> /var/log/run.log
         sed -i '0,/localhost/s//127.0.0.1/' /var/www/webroot/ROOT/conf/zabbix.conf.php.example &>> /var/log/run.log
         sed -e '0,/PASSWORD/c\"$DB['PASSWORD']      = '${globals.DB_PASS}';" /var/www/webroot/ROOT/conf/zabbix.conf.php.example &>> /var/log/run.log
+        mv /var/www/webroot/ROOT/conf/zabbix.conf.php.example /var/www/webroot/ROOT/conf/zabbix.conf.php &>> /var/log/run.log
 #sed -i "/$DB['PASSWORD']/c\$DB['PASSWORD']      = '${globals.DB_PASS}';" /var/www/webroot/ROOT/conf/zabbix.conf.php.example &>> /var/log/run.log
        
 
