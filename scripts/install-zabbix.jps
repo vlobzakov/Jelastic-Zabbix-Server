@@ -1,0 +1,24 @@
+jpsType: update
+name: WordPress Installation addon
+description: This package for WowrdPress configurations
+
+globals:
+  ZABBIX_PASS: "${settings.zabbix_pass}"
+  DB_HOST: "${settings.db_host}"
+  DB_NAME: zabbix_${fn.random}
+  DB_USER: "${settings.db_user}"
+  DB_PASS: "${settings.db_pass}"
+  TARGET_NODE_ID: "${settings.targetNodeID}"
+
+onInstall:
+  - dump-text
+
+actions:
+  dump-text:
+    - cmd[${globals.TARGET_NODE_ID}]: |-
+        echo ZABBIX_PASS=${ZABBIX_PASS} >> /var/log/temp
+        echo DB_HOST=${DB_HOST} >> /var/log/temp
+        echo DB_NAME=${DB_NAME} >> /var/log/temp
+        echo DB_USER=${DB_USER} >> /var/log/temp
+        echo DB_PASS=${DB_PASS} >> /var/log/temp
+        echo TARGET_NODE_ID=${TARGET_NODE_ID} >> /var/log/temp

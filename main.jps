@@ -10,10 +10,41 @@ description:
   text: Zabbix Server for monitoring of nodes and other servers
   short: Zabbix Server for monitoring of nodes and other servers
 
+globals:
+  DB_USER: jelastic-${fn.random}
+  DB_PASS: ${fn.password(10)}
+  DB_HOST: 127.0.0.1
+  ZABBIX_PASS: ${fn.password(10)}
+
 skipNodeEmails: true
 nodes:
   nodeType: llsmp
   fixedCloudlets: 4
   cloudlets: 16
-  nodeGroup: "cp"
-  ssl: true
+  nodeGroup: cp
+  - creatUserDB
+  - install-zabbix
+
+actions:
+  enable-ssl:
+    log: Enable Built in SSL
+    env.control.EditEnvSettings:
+      settings:
+        sslstate: true
+
+  creatUserDB:
+    - log: Create user for the Database
+    - cmd [cp]: |-
+        wget https://raw.githubusercontent.com/jelastic-jps/mysql-cluster/master/scripts/setupUser.sh -O ~/setupUser.sh &>> /var/log/run.log
+        bash ~/setupUser.sh ${globals.DB_USER} ${globals.DB_PASS} &>> /var/log/run.log
+        jem passwd set -p ${globals.DB_PASS} &>> /var/log/run.log 
+      user: root  
+
+  install-zabbix:
+    - install: ${baseUrl}/scripts/installWP.jps
+      settings:
+        db_host: ${globals.DB_HOST}
+        db_user: ${globals.DB_USER}
+        db_pass: ${globals.DB_PASS}
+        zabbix_pass: ${globals.ZABBIX_PASS}
+        targetNodeID: ${nodes.cp.master.id}
