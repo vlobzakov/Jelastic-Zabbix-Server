@@ -61,3 +61,6 @@ actions:
         echo /etc/zabbix >> /etc/jelastic/redeploy.conf
         echo /var/www/webroot >> /etc/jelastic/redeploy.conf
       user: root  
+
+success:
+  email: text/success.md
