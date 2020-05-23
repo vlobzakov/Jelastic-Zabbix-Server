@@ -47,6 +47,7 @@ actions:
   install-zabbix:
     - log: launching zabbix install JPS
     - install: ${baseUrl}/scripts/install-zabbix.jps
+      skipEmail: true
       settings:
         db_host: ${globals.DB_HOST}
         db_user: ${globals.DB_USER}
