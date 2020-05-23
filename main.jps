@@ -8,7 +8,7 @@ logo: images/zabbix.svg
 homepage: https://zabbix.com
 description: |
   Zabbix Server for monitoring of nodes and other servers  
-  This JPS is based on the LLSMP Stack and installs Zabbix 5.0
+  This JPS is based on the LLSMP Stack and installs Zabbix 5.0  
 
 globals:
   DB_USER: jelastic-${fn.random}
