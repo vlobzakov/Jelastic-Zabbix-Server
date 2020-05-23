@@ -1,6 +1,6 @@
 type: update
-name: WordPress Installation addon
-description: This package for WowrdPress configurations
+name: Install Zabbix
+description: This installs Zabbix and configures it
 
 globals:
   ZABBIX_PASS: "${settings.zabbix_pass}"
@@ -35,7 +35,7 @@ actions:
         yum clean all &>> /var/log/run.log
         yum install zabbix-server-mysql zabbix-agent &>> /var/log/run.log
         yum install centos-release-scl &>> /var/log/run.log
-        sed '0,/enabled=0/s//enabled=1/' /etc/yum.repos.d/zabbix.repo &>> /var/log/run.log
+        sed -i '0,/enabled=0/s//enabled=1/' /etc/yum.repos.d/zabbix.repo &>> /var/log/run.log
         yum install zabbix-web-mysql-scl zabbix-apache-conf-scl &>> /var/log/run.log
       user: root
       sayYes: true
