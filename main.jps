@@ -11,6 +11,7 @@ description: |
   This JPS is based on the LLSMP Stack and installs Zabbix 5.2  
 
 skipNodeEmails: true
+
 nodes:
   nodeType: llsmp
   fixedCloudlets: 4
