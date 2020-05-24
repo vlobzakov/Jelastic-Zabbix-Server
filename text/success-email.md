@@ -4,7 +4,7 @@ Use the following credentials to access the zabbix panel:
 
 **Admin Panel**: [https://${env.domain}](https://${env.domain})  
 **Login**: Admin  
-**Password**: ${globals.ZABBIX_PASS}
+**Password**: ${globals.ZABBIX_PASS} 
 
 Please use the following data to access LiteSpeed WebAdmin Console:
 

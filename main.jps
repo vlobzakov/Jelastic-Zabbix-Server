@@ -22,7 +22,7 @@ globals:
   DB_USER: jelastic-${fn.random}
   DB_PASS: ${fn.password(10)}
   DB_HOST: 127.0.0.1
-  WP_ADMIN_PASS: ${fn.password(10)}
+  ZABBIX_PASS: ${fn.password(10)}
 
 onInstall:
   - enable-ssl
@@ -53,7 +53,7 @@ actions:
         db_host: ${globals.DB_HOST}
         db_user: ${globals.DB_USER}
         db_pass: ${globals.DB_PASS}
-        zabbix_pass: ${globals.WP_ADMIN_PASS}
+        zabbix_pass: ${globals.ZABBIX_PASS}
         targetNodeID: ${nodes.cp.master.id}
 
   add-to-redeploy:
