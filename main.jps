@@ -11,12 +11,12 @@ description: |
   This JPS is based on the LLSMP Stack and installs Zabbix 5.2  
 
 skipNodeEmails: true
-
 nodes:
   nodeType: llsmp
   fixedCloudlets: 4
   cloudlets: 16
   nodeGroup: cp
+  skipEmail: true
 
 globals:
   DB_USER: jelastic-${fn.random}
