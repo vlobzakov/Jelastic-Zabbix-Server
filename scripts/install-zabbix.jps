@@ -20,6 +20,7 @@ onInstall:
   - configure-zabbix
   - configure-php
   - add-frontend
+  - prepare-for-upgrade-addon
 
 actions:
   install-zabbix:
@@ -80,3 +81,12 @@ actions:
         sed -i '9d' /var/www/webroot/ROOT/conf/zabbix.conf.php.example
         sed -i "9i $DST2" /var/www/webroot/ROOT/conf/zabbix.conf.php.example
         mv /var/www/webroot/ROOT/conf/zabbix.conf.php.example /var/www/webroot/ROOT/conf/zabbix.conf.php
+
+  prepare-for-upgrade-addon:
+    - log: Creates folders and sets rights for the upgrade addon
+    - cmd[${globals.TARGET_NODE_ID}]: |-
+        mkdir -p /opt/zabbix/configs/
+        mkdir /opt/zabbix/frontend/
+        chgrp -R litespeed /opt/zabbix
+      user: root
+      sayYes: true
