@@ -62,6 +62,7 @@ actions:
     - cmd [cp]: |-
         echo /etc/zabbix >> /etc/jelastic/redeploy.conf
         echo /var/www/webroot >> /etc/jelastic/redeploy.conf
+        echo /opt/zabbix >> /etc/jelastic/redeploy.conf
       user: root  
 
 success:
