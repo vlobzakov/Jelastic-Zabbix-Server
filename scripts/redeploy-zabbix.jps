@@ -5,6 +5,9 @@ logo: images/zabbix.svg
 baseUrl: https://raw.githubusercontent.com/panslothda/Jelastic-Zabbix-server/master
 skipNodeEmails: true
 
+globals:
+  TARGET_NODE_ID: "${settings.targetNodeID}"
+
 onInstall:
   - install-zabbix
 
@@ -24,4 +27,3 @@ actions:
         systemctl enable zabbix-server zabbix-agent &>> /var/log/run.log
       user: root
       sayYes: true
-      
