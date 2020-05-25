@@ -68,8 +68,6 @@ actions:
         echo /opt/zabbix >> /etc/jelastic/redeploy.conf
       user: root  
       skipEmail: true
-      settings:
-        targetNodeID: ${nodes.cp.master.id}
   
   redeploy:
     - log: re-install zabbix after redeploy
