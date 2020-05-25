@@ -71,6 +71,7 @@ actions:
   redeploy:
     - log: re-install zabbix after redeploy
     - install: ${baseUrl}/scripts/redeploy-zabbix.jps
+      skipEmail: true
 
 success:
   email: text/success-email.md

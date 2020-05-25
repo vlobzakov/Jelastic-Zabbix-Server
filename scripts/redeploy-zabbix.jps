@@ -8,7 +8,7 @@ skipNodeEmails: true
 onInstall:
   - install-zabbix
 
-  actions:
+actions:
   install-zabbix:
     - log: Download and install Zabbix Server
     - cmd[${globals.TARGET_NODE_ID}]: |-
