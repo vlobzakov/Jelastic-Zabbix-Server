@@ -1,7 +1,7 @@
 type: install
 version: 1.1
 name: Zabbix Server
-baseUrl: https://raw.githubusercontent.com/panslothda/Jelastic-Zabbix-server/master
+baseUrl: https://raw.githubusercontent.com/panslothda/Jelastic-Zabbix-Server/master
 categories:
   - apps/dev-and-admin-tools
 logo: images/zabbix.svg
