@@ -31,6 +31,9 @@ onInstall:
   - install-zabbix
   - add-to-redeploy
 
+onAfterRedeployContainer:
+  - redeploy
+
 actions:
   enable-ssl:
     log: Enable Built in SSL
@@ -64,6 +67,10 @@ actions:
         echo /var/www/webroot >> /etc/jelastic/redeploy.conf
         echo /opt/zabbix >> /etc/jelastic/redeploy.conf
       user: root  
+  
+  redeploy:
+    - log: re-install zabbix after redeploy
+    - install: ${baseUrl}/scripts/redeploy-zabbix.jps
 
 success:
   email: text/success-email.md
