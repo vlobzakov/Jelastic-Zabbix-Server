@@ -24,3 +24,4 @@ actions:
         systemctl enable zabbix-server zabbix-agent &>> /var/log/run.log
       user: root
       sayYes: true
+      
