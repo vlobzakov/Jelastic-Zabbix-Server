@@ -34,6 +34,8 @@ actions:
     - log: upgrade zabbix packages
     - cmd [cp]: |-
         yum upgrade -y 'zabbix-*' centos-release-scl &>> /var/log/run.log
+        systemctl start zabbix-server zabbix-agent &>> /var/log/run.log
+        systemctl enable zabbix-server zabbix-agent &>> /var/log/run.log
       user: root
       sayYes: true
 
