@@ -30,13 +30,12 @@ onInstall:
   - creatUserDB
   - install-zabbix
   - add-to-redeploy
-  installAddon:
+  - installAddon:
       id: update-addon
       nodeGroup: cp  
 
 onAfterRedeployContainer:
   - redeploy
-
 
 addons:
   - id: update-addon
@@ -53,7 +52,6 @@ addons:
         - log: launching zabbix install JPS
         - install: ${baseUrl}/scripts/update-zabbix.jps
           skipEmail: true
-
 
 actions:
   enable-ssl:
