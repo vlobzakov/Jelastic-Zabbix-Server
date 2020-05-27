@@ -45,13 +45,16 @@ actions:
   configure-zabbix:
     - log: Configure Zabbix config files
     - cmd[${globals.TARGET_NODE_ID}]: |-
-        gpasswd -a litespeed zabbix &>> /var/log/run.log
-        chmod 0660 /etc/zabbix/zabbix_server.conf &>> /var/log/run.log
-        sed -i '/DBHost=localhost/c\DBHost=127.0.0.1' /etc/zabbix/zabbix_server.conf &>> /var/log/run.log
-        sed -i '/DBName=zabbix/c\DBName=${globals.DB_NAME}' /etc/zabbix/zabbix_server.conf &>> /var/log/run.log
-        sed -i '/DBUser=zabbix/c\DBUser=${globals.DB_USER}' /etc/zabbix/zabbix_server.conf &>> /var/log/run.log
-        sed -i '/DBPassword=/c\DBPassword=${globals.DB_PASS}' /etc/zabbix/zabbix_server.conf &>> /var/log/run.log
-        sed -i '/ListenPort=10051/c\ListenPort=10051' /etc/zabbix/zabbix_server.conf &>> /var/log/run.log
+        gpasswd -a litespeed zabbix 
+        chmod 0660 /etc/zabbix/zabbix_server.conf 
+        sed -i '/DBHost=localhost/c\DBHost=127.0.0.1' /etc/zabbix/zabbix_server.conf
+        sed -i '/DBName=zabbix/c\DBName=${globals.DB_NAME}' /etc/zabbix/zabbix_server.conf 
+        sed -i '/DBUser=zabbix/c\DBUser=${globals.DB_USER}' /etc/zabbix/zabbix_server.conf
+        sed -i '/DBPassword=/c\DBPassword=${globals.DB_PASS}' /etc/zabbix/zabbix_server.conf 
+        sed -i '/ListenPort=10051/c\ListenPort=10051' /etc/zabbix/zabbix_server.conf 
+        SERVER=$(hostname)
+        sed -i '171d' /etc/zabbix/zabbix_agentd.conf
+        sed -i "171i Hostname=$SERVER" /etc/zabbix/zabbix_agentd.conf
         systemctl restart zabbix-server zabbix-agent &>> /var/log/run.log
         systemctl enable zabbix-server zabbix-agent &>> /var/log/run.log
       user: root
