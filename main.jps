@@ -30,9 +30,29 @@ onInstall:
   - creatUserDB
   - install-zabbix
   - add-to-redeploy
+  installAddon:
+      id: update-addon
+      nodeGroup: cp  
 
 onAfterRedeployContainer:
   - redeploy
+
+
+addons:
+  - id: update-addon
+    name: Update Zabbix Server
+    description: Press "Update" button to start the update of all Zabbix Components 
+    buttons:
+      - caption: Update
+        action: update
+        loadingText: Updating...
+        confirmText: Do you want to update all Zabbix Components?
+        successText: Zabbix Components have been successfully updated!
+    actions:
+      update:
+        - log: launching zabbix install JPS
+        - install: ${baseUrl}/scripts/install-zabbix.jps
+
 
 actions:
   enable-ssl:
@@ -67,7 +87,6 @@ actions:
         echo /var/www/webroot >> /etc/jelastic/redeploy.conf
         echo /opt/zabbix >> /etc/jelastic/redeploy.conf
       user: root  
-      skipEmail: true
   
   redeploy:
     - log: re-install zabbix after redeploy

@@ -1,0 +1,35 @@
+type: update
+version: 0.1
+name: Zabbix Server Upgrade 
+baseUrl: https://raw.githubusercontent.com/panslothda/Jelastic-Zabbix-Upgrade/master
+logo: images/zabbix.svg
+homepage: https://zabbix.com
+description: |
+  This Addon allows you to upgrade the Zabbix Server and frontend.  
+
+targetNodes:
+  nodeGroup: '*'
+
+globals:
+  xxxxxxx:
+ 
+buttons:
+  - confirmText: Do you want to launch an upgrade of all Zabbix Components?     A Backup of all config files will be saved to /opt/zabbix.
+    loadingText: Upgrading
+    action: Upgrade
+    caption: Upgrade
+
+actions:
+  Upgrade:
+    - log: Starting the Upgrade of zabbix components
+    - cmd [${targetNodes.nodeGroup}]: |-
+        cp --backup=numbered /etc/zabbix/zabbix_server.conf /opt/zabbix/configs/
+        cp --backup=numbered /var/www/webroot/ROOT/conf/zabbix.conf.php /opt/zabbix/configs/
+        cp --backup=numbered /usr/local/lsws/lsphp74/etc/php.ini /opt/zabbix/configs/
+        yum 
+      user: root
+      sayYes: true
+        centos-release-scl zabbix*
+
+success:
+  text: text/success-text.md
