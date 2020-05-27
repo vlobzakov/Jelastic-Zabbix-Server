@@ -40,7 +40,7 @@ onAfterRedeployContainer:
 addons:
   - id: update-addon
     name: Update Zabbix Server
-    description: Press "Update" button to start the update of all Zabbix Components 
+    description: Update of all Zabbix Components
     buttons:
       - caption: Update
         action: update

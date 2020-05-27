@@ -7,7 +7,7 @@ description: |
   This Addon allows you to upgrade the Zabbix Server and frontend.  
 
 targetNodes:
-  nodeGroup: '*'
+  nodeGroup: [cp]
  
 onInstall:
   - backup-files
@@ -17,7 +17,7 @@ onInstall:
 actions:
   backup-files:
     - log: Bckup zabbix components
-    - cmd [${targetNodes.nodeGroup}]: |-
+    - cmd [cp]: |-
         systemctl stop zabbix-server &>> /var/log/run.log
         systemctl stop zabbix-agent &>> /var/log/run.log
         cp --backup=numbered /etc/zabbix/zabbix_server.conf /opt/zabbix/configs/ &>> /var/log/run.log
@@ -32,14 +32,14 @@ actions:
 
   upgrade-zabbix:
     - log: upgrade zabbix packages
-    - cmd [${targetNodes.nodeGroup}]: |-
+    - cmd [cp]: |-
         yum upgrade -y 'zabbix-*' centos-release-scl &>> /var/log/run.log
       user: root
       sayYes: true
 
   upgrade-frontend:
     - log: upgrade frontend
-    - cmd [${targetNodes.nodeGroup}]: |-
+    - cmd [cp]: |-
         cd /opt/zabbix/temp/
         wget ${baseUrl}/frontend/frontend.zip &>> /var/log/run.log
         unzip frontend.zip &>> /var/log/run.log
