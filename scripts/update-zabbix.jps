@@ -1,35 +1,54 @@
 type: update
 version: 0.1
 name: Zabbix Server Upgrade 
-baseUrl: https://raw.githubusercontent.com/panslothda/Jelastic-Zabbix-Upgrade/master
+baseUrl: https://raw.githubusercontent.com/panslothda/Jelastic-Zabbix-Server/master
 logo: images/zabbix.svg
-homepage: https://zabbix.com
 description: |
   This Addon allows you to upgrade the Zabbix Server and frontend.  
 
 targetNodes:
   nodeGroup: '*'
-
-globals:
-  xxxxxxx:
  
-buttons:
-  - confirmText: Do you want to launch an upgrade of all Zabbix Components?     A Backup of all config files will be saved to /opt/zabbix.
-    loadingText: Upgrading
-    action: Upgrade
-    caption: Upgrade
+onInstall:
+  - backup-files
+  - upgrade-zabbix
+  - upgrade-frontend
 
 actions:
-  Upgrade:
-    - log: Starting the Upgrade of zabbix components
+  backup-files:
+    - log: Bckup zabbix components
     - cmd [${targetNodes.nodeGroup}]: |-
-        cp --backup=numbered /etc/zabbix/zabbix_server.conf /opt/zabbix/configs/
-        cp --backup=numbered /var/www/webroot/ROOT/conf/zabbix.conf.php /opt/zabbix/configs/
-        cp --backup=numbered /usr/local/lsws/lsphp74/etc/php.ini /opt/zabbix/configs/
-        yum 
+        systemctl stop zabbix-server &>> /var/log/run.log
+        systemctl stop zabbix-agent &>> /var/log/run.log
+        cp --backup=numbered /etc/zabbix/zabbix_server.conf /opt/zabbix/configs/ &>> /var/log/run.log
+        cp --backup=numbered /var/www/webroot/ROOT/conf/zabbix.conf.php /opt/zabbix/configs/ &>> /var/log/run.log
+        cp --backup=numbered /usr/local/lsws/lsphp74/etc/php.ini /opt/zabbix/configs/ &>> /var/log/run.log
+        cp -R /var/www/webroot/ROOT /opt/zabbix/temp/ &>> /var/log/run.log
+        zip -r /opt/zabbix/temp/frontend.zip /opt/zabbix/temp/* &>> /var/log/run.log
+        cp --backup=numbered /opt/zabbix/temp/frontend.zip /opt/zabbix/frontend/ &>> /var/log/run.log
+        rm /opt/zabbix/temp/* -r &>> /var/log/run.log
       user: root
       sayYes: true
-        centos-release-scl zabbix*
+
+  upgrade-zabbix:
+    - log: upgrade zabbix packages
+    - cmd [${targetNodes.nodeGroup}]: |-
+        yum upgrade -y 'zabbix-*' centos-release-scl &>> /var/log/run.log
+      user: root
+      sayYes: true
+
+  upgrade-frontend:
+    - log: upgrade frontend
+    - cmd [${targetNodes.nodeGroup}]: |-
+        cd /opt/zabbix/temp/
+        wget ${baseUrl}/frontend/frontend.zip &>> /var/log/run.log
+        unzip frontend.zip &>> /var/log/run.log
+        rm frontend.zip &>> /var/log/run.log
+        \cp -R /opt/zabbix/temp/ /var/www/webroot/ROOT &>> /var/log/run.log
+        rm /opt/zabbix/temp/* -r &>> /var/log/run.log
+      user: root
+      sayYes: true
+
 
 success:
-  text: text/success-text.md
+  text: text/success-update-text.mds

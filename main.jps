@@ -51,7 +51,8 @@ addons:
     actions:
       update:
         - log: launching zabbix install JPS
-        - install: ${baseUrl}/scripts/install-zabbix.jps
+        - install: ${baseUrl}/scripts/update-zabbix.jps
+          skipEmail: true
 
 
 actions:
