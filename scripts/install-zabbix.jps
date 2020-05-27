@@ -86,6 +86,7 @@ actions:
     - cmd[${globals.TARGET_NODE_ID}]: |-
         mkdir -p /opt/zabbix/configs/
         mkdir /opt/zabbix/frontend/
+        mkdir /opt/zabbix/temp/
         chgrp -R litespeed /opt/zabbix
       user: root
       sayYes: true
