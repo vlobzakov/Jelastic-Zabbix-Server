@@ -9,6 +9,7 @@ This is done by taking the frontend directly from their gitlab and the addon the
 
 Additionally the zabbix agent is installed for the node.
 
+
 # Installation
 Simply import this link using the Jelastic JPS Import function:
 ```
