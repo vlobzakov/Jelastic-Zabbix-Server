@@ -99,7 +99,8 @@ actions:
   additional-config:
     - log: execute miscellanious commands for zabbix server functionality
     - cmd[${globals.TARGET_NODE_ID}]: |-
+        yum install traceroute nmap &>> /var/log/run.log
         chmod 4755 /bin/ping
-        yum install traceroute nmap
+        echo "zabbix  ALL=NOPASSWD: /usr/bin/nmap" | (sudo su -c 'EDITOR="tee" visudo -f /etc/sudoers.d/zabbix')
       user: root
       sayYes: true
