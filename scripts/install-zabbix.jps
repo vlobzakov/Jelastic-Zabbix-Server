@@ -20,6 +20,7 @@ onInstall:
   - configure-php
   - add-frontend
   - prepare-for-upgrade-addon
+  - additional-config
 
 actions:
   install-zabbix:
@@ -91,5 +92,13 @@ actions:
         mkdir /opt/zabbix/frontend/
         mkdir /opt/zabbix/temp/
         chgrp -R litespeed /opt/zabbix
+      user: root
+      sayYes: true
+
+# ping right change taken from https://community.pivotal.io/s/article/Linux-ping-command-fails-with-icmp-open-socket--Operation-not-permitted 
+  additional-config:
+    - log: execute miscellanious commands
+    - cmd[${globals.TARGET_NODE_ID}]: |-
+        chmod 4755 /bin/ping
       user: root
       sayYes: true

@@ -7,6 +7,7 @@ skipNodeEmails: true
 
 onInstall:
   - install-zabbix
+  - additional-config
 
 actions:
   install-zabbix:
@@ -22,5 +23,12 @@ actions:
         sed -i '/date.timezone =/c\date.timezone = Europe/Zurich' /usr/local/lsws/lsphp7*/etc/php.ini &>> /var/log/run.log
         systemctl restart zabbix-server zabbix-agent lshttpd &>> /var/log/run.log
         systemctl enable zabbix-server zabbix-agent &>> /var/log/run.log
+      user: root
+      sayYes: true
+
+  additional-config:
+    - log: execute miscellanious commands
+    - cmd[${globals.TARGET_NODE_ID}]: |-
+        chmod 4755 /bin/ping
       user: root
       sayYes: true
