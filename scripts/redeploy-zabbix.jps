@@ -27,8 +27,9 @@ actions:
       sayYes: true
 
   additional-config:
-    - log: execute miscellanious commands
+    - log: execute miscellanious commands for zabbix server functionality
     - cmd[${globals.TARGET_NODE_ID}]: |-
         chmod 4755 /bin/ping
+        yum install traceroute
       user: root
       sayYes: true
