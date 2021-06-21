@@ -41,7 +41,7 @@ onAfterRedeployContainer:
 addons:
   - id: update-addon
     name: Update Zabbix Server
-    description: Update of all Zabbix Components
+    description: Update of all Zabbix Components, if after update it stays on same version but new is available, please contact support.
     buttons:
       - caption: Update
         action: update
