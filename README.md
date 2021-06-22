@@ -26,6 +26,6 @@ There is also an addon that gets installed with following option:
 
 ![Interface](images/interface.png?raw=true)
 
-If you press the update button it installs the new minor version if available and donwloads the new frontend files from this github repo.
+If you press the update button it installs the new version if available and donwloads the new frontend files from this github repo if they have been published and are added on this github.
 
-Previous config files and frontend are backuped to /opt/zabbix for safekeeping.s
+Previous config files and frontend are backuped to /opt/zabbix for safekeeping.
