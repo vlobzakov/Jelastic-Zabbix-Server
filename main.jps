@@ -51,7 +51,7 @@ addons:
     actions:
       update:
         - log: launching zabbix install JPS
-        - install: https://raw.githubusercontent.com/Aureliolo/Jelastic-Zabbix-Server/master/scripts/update-zabbix.jps
+        - install: https://raw.githubusercontent.com/vlobzakov/Jelastic-Zabbix-Server/master/scripts/update-zabbix.jps
           skipEmail: true
 
 actions:
