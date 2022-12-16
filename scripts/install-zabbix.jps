@@ -28,9 +28,8 @@ actions:
     - cmd[${globals.TARGET_NODE_ID}]: |-
         sed -i '/tsflags=nodocs/d' /etc/yum.conf &>> /var/log/run.log
         rpm --import https://repo.zabbix.com/RPM-GPG-KEY-ZABBIX-A14FE591 &>> /var/log/run.log
-        rpm -Uvh https://repo.zabbix.com/zabbix/5.0/rhel/7/x86_64/zabbix-server-mysql-5.0.1-1.el7.x86_64.rpm &>> /var/log/run.log
+        rpm -Uvh https://repo.zabbix.com/zabbix/5.0/rhel/7/x86_64/zabbix-server-mysql-5.0.1-1.el7.x86_64.rpm >> /var/log/run.log
         yum clean all &>> /var/log/run.log
-        yum install zabbix-server-mysql zabbix-agent &>> /var/log/run.log
         yum install centos-release-scl &>> /var/log/run.log
       user: root
       sayYes: true
