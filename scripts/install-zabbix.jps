@@ -50,7 +50,7 @@ actions:
     - cmd[${globals.TARGET_NODE_ID}]: |-
         gpasswd -a litespeed zabbix 
         chmod 0660 /etc/zabbix/zabbix_server.conf 
-        sed -i '/DBHost=localhost/c\DBHost=127.0.0.1' /etc/zabbix/zabbix_server.conf
+        sed -i '/DBHost=localhost/c\DBHost=sqldb' /etc/zabbix/zabbix_server.conf
         sed -i '/DBName=zabbix/c\DBName=${globals.DB_NAME}' /etc/zabbix/zabbix_server.conf 
         sed -i '/DBUser=zabbix/c\DBUser=${globals.DB_USER}' /etc/zabbix/zabbix_server.conf
         sed -i '/DBPassword=/c\DBPassword=${globals.DB_PASS}' /etc/zabbix/zabbix_server.conf 
