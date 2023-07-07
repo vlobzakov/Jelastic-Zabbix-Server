@@ -13,7 +13,7 @@ categories:
 skipNodeEmails: true
 
 nodes:
-  - nodeType: apache
+  - nodeType: litespeedphp
     fixedCloudlets: 4
     cloudlets: 16
     nodeGroup: cp
